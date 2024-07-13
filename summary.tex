@@ -6,6 +6,7 @@
 \setlength{\parindent}{0pt}
 \begin{center}\LARGE\textbf{Introduction to Deep Learning}\end{center}
 
+
 \section*{Machine Learning}
 \subsection*{Linear Regression}
 $$\hat{y}_i = \sum_{j=1}^{d} x_{ij} \theta_j$$
@@ -29,7 +30,6 @@ $\sigma$ is the sigmoid/logistic function.
 Loss function (binary cross entropy loss):
 $$L(\hat{y}_i, y_i) = -[y_i \; log \, \hat{y}_i + (1 - y_i) \, log(1 - \hat{y}_i]$$
 No analytical solution. Iterative method needed (gradient descent).
-
 
 
 \section*{Loss Functions}
@@ -66,6 +66,19 @@ Encourages the model to make confident predictions close to $0$ or $1$.
 Cross Entropy loss (multi-class classification):
 $$L(y, \hat{y}; \theta) = - \sum_{i=1}^{n} \sum_{k=1}^{k} (y_{ik} \cdot log \, \hat{y}_{ik})$$
 The second sum is a generalization of the binary cross entropy case for multiple classes.
+
+
+\section*{Backpropagation}
+Backpropagation aims to minimize the loss function by adjusting network weights and biases. The level of adjustment is determined by the gradients of the loss function with respect to those parameters.
+Neural network is a chain of functions: linear transformations and activation functions. During backpropagation, the gradients of each linear transformation are calculated using the chain rule, starting from the derivative of the loss function and going backwards through the network.
+
+Chain rule:
+$$\frac{dy}{dx}=\frac{\partial y}{\partial u} \frac{\partial u}{\partial x}$$
+or
+$$h'(x) = f'(g(x))g'(x)$$
+
+\section*{Gradient descent}
+
 
 
 \end{document}
