@@ -135,7 +135,13 @@ Then measure the gradient where you end up with the updated weights and make a c
 $$v^{k+1} = \beta \cdot v^k - \alpha \cdot \nabla_\theta L(\widetilde{\theta}^{k+1})$$
 $$\theta^{k+1} = \theta^k + v^{k+1}$$
 
-\
+\subsection*{RMSProp}
+Root Mean Squared Prop.
+Divide the learning rate by an exponentially-decaying average of squared gradients.
+$$s^{k+1} = \beta \cdot s^k + (1-\beta)[\nabla_\theta L \circ \nabla_\theta L]$$
+$$\theta^{k+1} = \theta^k - \alpha \cdot \frac{\nabla_\theta L}{\sqrt{s^{k+1}} + \epsilon}$$
+where $\circ$ is element wise multiplication to square the gradients. $\beta$ and $\epsilon$ are hyperparameters, usually set to $\beta = 0.9$ and $\epsilon = 10^{-8}$.
+
 
 
 \section*{Regularization}
