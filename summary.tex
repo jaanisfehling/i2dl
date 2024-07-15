@@ -161,6 +161,20 @@ and
 $$\hat{v}^{k+1} = \frac{v^{k+1}}{1 - \beta_2^{k+1}}$$
 Adam is the standard choice for neural networks today.
 
+\subsection*{Second Order Optimization Methods}
+Newton's Method:
+- Find a global minima by using the second order derivative.
+- Theoretically faster and better (uses less steps) at finding a global minimum than gradient descent.
+- In reality, too complex to compute second order derivative.
+BFGS and L-BFGS:
+- Broyden-Fletcher-Goldfarb-Shanno algorithm.
+- quasi Newton method.
+- uses an approximation of the inverse of the Hessian.
+- reduces complexity from $O(n^3)$ to $O(n^2)$.
+Other second-order methods: Gauss-Newton (GN), Levenberg, Levenberg-Marquardt (LM).
+The main problem of these methods is, that you need to be able to do a full batch update, meaning update the network weights at once using the full dataset. This is practically never the case in deep learning, which is why gradient descent methods on minibatches is the way to go.
+
+
 
 \section*{Regularization}
 Prevent overfitting with regularization.
