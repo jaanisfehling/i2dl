@@ -73,9 +73,15 @@ Backpropagation aims to minimize the loss function by adjusting network weights 
 Neural network is a chain of functions: linear transformations and activation functions. During backpropagation, the gradients of each linear transformation are calculated using the chain rule, starting from the derivative of the loss function and going backwards through the network.
 
 Chain rule:
-$$\frac{dy}{dx}=\frac{\partial y}{\partial u} \frac{\partial u}{\partial x}$$
+$$\frac{\partial y}{\partial x}=\frac{\partial y}{\partial u} \frac{\partial u}{\partial x}$$
 or
 $$h'(x) = f'(g(x))g'(x)$$
+
+Calculate the gradients of the last layer:
+$$\frac{\partial L}{\partial w_{ij}} = \frac{\partial L}{\partial \hat{y}_i} \cdot \frac{\partial \hat{y}_i}{\partial z_i} \cdot \frac{\partial z_i}{\partial w_{ij}}$$
+where $z$ are the outputs of the layer before the activation function.
+For any weight update in the hidden layers, sum all gradients of all neurons that are influenced by that weight.
+
 
 \section*{Gradient descent}
 
