@@ -124,7 +124,8 @@ We calculate a velocitiy vector $v$:
 $$v^{k+1} = \beta \cdot v^k - \alpha \cdot \nabla_\theta L(\theta^k)$$
 which we use to update the weights:
 $$\theta^{k+1} = \theta^k + v^{k+1}$$
-Essentially, we add an exponentially-weighted average of the gradient. The hyperparameter $\beta$ is usually set to 0.9.
+The hyperparameter $\beta$ is usually set to 0.9.
+Essentially, we add an exponentially-weighted moving average of the gradient.
 Gradient descent with momentum can potentially overcome local minima due to the momentum factor, which allows it to escape "small bumps".
 
 \subsection*{Nesterov Momentum}
@@ -141,7 +142,24 @@ Divide the learning rate by an exponentially-decaying average of squared gradien
 $$s^{k+1} = \beta \cdot s^k + (1-\beta)[\nabla_\theta L \circ \nabla_\theta L]$$
 $$\theta^{k+1} = \theta^k - \alpha \cdot \frac{\nabla_\theta L}{\sqrt{s^{k+1}} + \epsilon}$$
 where $\circ$ is element wise multiplication to square the gradients. $\beta$ and $\epsilon$ are hyperparameters, usually set to $\beta = 0.9$ and $\epsilon = 10^{-8}$.
+Essentially, we keep an moving average of squared gradients and adjust the weight updates by dividing by this average. The idea is that the learning rate can be adjusted for different gradients influenced by different weights, which is better than having a static learning rate.
+This dampens the oscillations of gradient descent for high-variance directions.
+It also can utilize a higher learning rate since it is less likely to diverge.
 
+\subsection*{Adam}
+Adaptive Moment Estimation.
+It combines Momentum and RMSProp.
+The first momentum, the mean of gradients, is calculated as follows:
+$$m^{k+1} = \beta \cdot m^k + (1 - \beta_1) \nabla_\theta L(\theta^k)$$
+The second momentum (RMSProp), the variance of gradients:
+$$v^{k+1} = \beta_2 \cdot v^k + (1-\beta_2)[\nabla_\theta L(\theta^k) \circ \nabla_\theta L(\theta^k)]$$
+The updated weight are then:
+$$\theta^{k+1} = \theta^k - \alpha \cdot \frac{m^{k+1}}{\sqrt{v^{k+1}} + \epsilon}$$
+Notice that at $k = 0$, we use $m^0 = 0$ and $v^0 = 0$. This leads to a bias towards 0. We therefore need bias-corrected moment updates:
+$$\hat{m}^{k+1} = \frac{m^{k+1}}{1 - \beta_1^{k+1}}$$
+and
+$$\hat{v}^{k+1} = \frac{v^{k+1}}{1 - \beta_2^{k+1}}$$
+Adam is the standard choice for neural networks today.
 
 
 \section*{Regularization}
