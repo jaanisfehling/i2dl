@@ -90,9 +90,52 @@ $$\frac{\partial \sigma}{\partial x} = \sigma (x) (1 - \sigma (x))$$
 
 
 \section*{Gradient descent}
-Gradient update steps in direction of negative gradient:
-$$W' = W - \alpha \nabla f (W)$$
-where $\alpha$ is the learning rate.
+Gradient update step of the weight in direction of negative gradient (for a single training sample):
+$$\theta^{k+1} = \theta^k - \alpha \nabla_\theta L_i(\theta^k, x_i,y_i)$$
+where $\alpha$ is the learning rate, typically very small.
+Update step for $n$ samples:
+$$\theta^{k+1} = \theta^k - \alpha \nabla_\theta L(\theta^k, x_{\{1..n\}}, y_{\{1..n\}})$$
+where the gradient is the average over the residuals:
+$$\nabla_\theta L(\theta^k, x_{\{1..n\}}, y_{\{1..n\}}) = \frac{1}{n} \sum_{i=1}^{n} \nabla_\theta L_i(\theta^k, x_i, y_i)$$
+Potentially, the learning rate $\alpha$ could be calculated using Line Search:
+$$arg \, min_\alpha L(\theta^k - \alpha \nabla_\theta L_i)$$
+But this is not practical since we would need to solve a huge system every time.
+
+The number of samples $n$ is a hyperparameter called batch size.
+Smaller batch size:
+- Greater variance in the gradients, which leads to noisy updates
+- slower convergence
+- Needs more updates, but theoretically lower computational cost
+Larger batch size:
+- less variance in the gradients
+- faster convergence
+- higher computational cost, but we can use GPUs to parallelize the update
+In practice, we want to choose the biggest possible batch size that can be parallelized on our GPUs in one backward pass. Often values such as 32, 64 up to 1024 are used, for large models the batch size could millions of samples.
+
+Problems of Stochastic Gradient Descent:
+- Gradient is scaled equally across all dimensions, cannot independently scale directions
+- Learning rate needs to be conservative (small) to avoid divergence
+- Small learning rate means slow convergence
+- Finding the perfect learning rate is therefore difficult
+
+\subsection*{Gradient Descent with Momentum}
+Instead of making many steps back and forth along the wrong dimensions, we would like to capture the momentum and move faster towards the optimum.
+We calculate a velocitiy vector $v$:
+$$v^{k+1} = \beta \cdot v^k - \alpha \cdot \nabla_\theta L(\theta^k)$$
+which we use to update the weights:
+$$\theta^{k+1} = \theta^k + v^{k+1}$$
+Essentially, we add an exponentially-weighted average of the gradient. The hyperparameter $\beta$ is usually set to 0.9.
+Gradient descent with momentum can potentially overcome local minima due to the momentum factor, which allows it to escape "small bumps".
+
+\subsection*{Nesterov Momentum}
+A kind of look-ahead momentum.
+First make a big jump in the direction of the previously accumulated gradient:
+$$\widetilde{\theta}^{k+1} = \theta^k + \beta \cdot v^k$$
+Then measure the gradient where you end up with the updated weights and make a correction:
+$$v^{k+1} = \beta \cdot v^k - \alpha \cdot \nabla_\theta L(\widetilde{\theta}^{k+1})$$
+$$\theta^{k+1} = \theta^k + v^{k+1}$$
+
+\
 
 
 \section*{Regularization}
@@ -111,5 +154,10 @@ $$R(\theta) = \sum_{i=1}^{n} |\theta_i|$$
 - Model will focus attention on a few key features.
 
 Regularization coefficient $\lambda$ sets the level of regularization (higher $\lambda$ means more regularization).
+General effect of regularization: Lower validation error, but increased training error.
+
+
+
+
 
 \end{document}
