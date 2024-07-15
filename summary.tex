@@ -82,9 +82,34 @@ $$\frac{\partial L}{\partial w_{ij}} = \frac{\partial L}{\partial \hat{y}_i} \cd
 where $z$ are the outputs of the layer before the activation function.
 For any weight update in the hidden layers, sum all gradients of all neurons that are influenced by that weight.
 
+\subsection*{Useful Derivatives}
+ReLU:
+$$\frac{\partial ReLU}{\partial x} = if \; x < 0 \; then \; 0; \; if \; x > 0 \; then \; 1$$
+Sigmoid:
+$$\frac{\partial \sigma}{\partial x} = \sigma (x) (1 - \sigma (x))$$
+
 
 \section*{Gradient descent}
+Gradient update steps in direction of negative gradient:
+$$W' = W - \alpha \nabla f (W)$$
+where $\alpha$ is the learning rate.
 
 
+\section*{Regularization}
+Prevent overfitting with regularization.
+Add regularization to the loss:
+$$L'(y, \hat{y}; \theta) = L'(y, \hat{y}; \theta) + \lambda R(\theta)$$
+L2 Regularization:
+$$R(\theta) = \sum_{i=1}^{n} \theta^2_i$$
+- Is lower for smaller, distributed values.
+- Enforces that weights have similar values.
+- Model will take all information into account to make decisions.
+L1 Regularization:
+$$R(\theta) = \sum_{i=1}^{n} |\theta_i|$$
+- Is overall lower than L2 with some higher weight values.
+- Enforces sparsity.
+- Model will focus attention on a few key features.
+
+Regularization coefficient $\lambda$ sets the level of regularization (higher $\lambda$ means more regularization).
 
 \end{document}
