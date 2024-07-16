@@ -32,6 +32,16 @@ $$L(\hat{y}_i, y_i) = -[y_i \; log \, \hat{y}_i + (1 - y_i) \, log(1 - \hat{y}_i
 No analytical solution. Iterative method needed (gradient descent).
 
 
+\section*{Output Functions}
+Output function is the last activation function of the network, which represents the network output.
+Binary classification: Sigmoid
+$$\sigma (x) = \frac{1}{1 + e^{x}}$$
+The resulting value is between 0 and 1 which can be seen as a probability of a class outcome.
+Multi-class classification: Softmax
+$$\sigma (\mathbf{x})_i = \frac{e^{x_i}}{\sum_{j=1}^{k} e^{x_j}}$$
+The exponential operation makes sure the probabilities are above 0. The normalization makes sure all resulting probabilities sum up to one.
+
+
 \section*{Loss Functions}
 Measure the goodness of the prediction.
 Large loss indicates bad performance.
@@ -40,19 +50,25 @@ Choice of loss function depends on problem.
 \subsection*{Regression Loss}
 L1 Loss:
 $$L(y, \hat{y}; \theta) = \frac{1}{n} \sum_{i}^{n} ||y_i - \hat{y}_i ||_1$$
-MSE Loss:
+- Sum of absolute differences
+- Robust, not prone to outliers
+- Costly to optimize (not differentiable)
+- Optimum is the median
+MSE Loss (L2 Loss):
 $$L(y, \hat{y}; \theta) = \frac{1}{n} \sum_{i}^{n} ||y_i - \hat{y}_i ||_2^2$$
-where 
-L1 norm (Manhattan distance):
-$$||x||_1 = \sum |x_i|$$
+- Sum of squared differences
+- Prone to outliers
+- Compute efficient (differentiable)
+- Optimum is mean
+where:
+L1 norm (Manhattan distance): $||x||_1 = \sum |x_i|$
 - Promotes sparsity
 - More robust to outliers
-L2 norm (Euclidean distance):
-$$||x||_2 = \sqrt{\sum x^2_i}$$
+L2 norm (Euclidean distance): $||x||_2 = \sqrt{\sum x^2_i}$
 - Differentiable
 - Penalizes large errors more heavily
-Squared L2 norm:
-$$||x||^2_2 = \sum x^2_i$$
+Squared L2 norm: $||x||^2_2 = \sum x^2_i$
+- Similar to L2 norm
 - Differentiable
 - Computationally efficient
 
@@ -66,6 +82,9 @@ Encourages the model to make confident predictions close to $0$ or $1$.
 Cross Entropy loss (multi-class classification):
 $$L(y, \hat{y}; \theta) = - \sum_{i=1}^{n} \sum_{k=1}^{k} (y_{ik} \cdot log \, \hat{y}_{ik})$$
 The second sum is a generalization of the binary cross entropy case for multiple classes.
+
+Hinge Loss (multi-class):
+$$L_i(y, \hat{y}) = max(0, \sum_{k \neq y_idea}^{max})$$
 
 
 \section*{Backpropagation}
@@ -190,8 +209,7 @@ $$R(\theta) = \sum_{i=1}^{n} |\theta_i|$$
 - Enforces sparsity.
 - Model will focus attention on a few key features.
 
-Regularization coefficient $\lambda$ sets the level of regularization (higher $\lambda$ means more regularization).
-General effect of regularization: Lower validation error, but increased training error.
+Regularization coefficient $\lambda$ sets the level of regularization (higheheutening error.
 
 
 \section*{Training}
