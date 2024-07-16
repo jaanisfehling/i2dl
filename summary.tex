@@ -175,7 +175,6 @@ Other second-order methods: Gauss-Newton (GN), Levenberg, Levenberg-Marquardt (L
 The main problem of these methods is, that you need to be able to do a full batch update, meaning update the network weights at once using the full dataset. This is practically never the case in deep learning, which is why gradient descent methods on minibatches is the way to go.
 
 
-
 \section*{Regularization}
 Prevent overfitting with regularization.
 Add regularization to the loss:
@@ -193,6 +192,55 @@ $$R(\theta) = \sum_{i=1}^{n} |\theta_i|$$
 
 Regularization coefficient $\lambda$ sets the level of regularization (higher $\lambda$ means more regularization).
 General effect of regularization: Lower validation error, but increased training error.
+
+
+\section*{Training}
+\subsection*{Learning Rate}
+When far away from the minimum during trainig, we need high learning rate. But when closer to the minimum, we want a small learning rate to not overshoot it.
+We can use learning rate decay to lower the learning rate over epochs (one epoch = one complete pass over the training samples):
+$$\alpha = \frac{1}{1 + t \cdot epoch} \cdot \alpha_0$$
+where $\alpha_0$ could be 0.1 and the decay rate $t$ could be 1.0.
+Other options on how to lower the learning rate:
+- Step decay (only ever $n$ steps): $\alpha = \alpha - t \cdot \alpha$.
+- Exponential decay: $\alpha = t^{epoch} \cdot \alpha_0$
+- $\alpha = \frac{t}{\sqrt{epoch}} \cdot \alpha_0$
+- Or set the learning rate manually after every $n$ epochs.
+
+\subsection*{Data Split}
+Training set:
+- Used for training the network
+Validation set:
+- Check generalization progress
+- Hyperparameter Optimization
+Test set:
+- only for the very end, assesing the performance of your network
+- never touch during development or training
+Typical splits:
+- Train: 60\%, Validation: 20\%, Test: 20\%
+- Train: 80\%, Validation: 10\%, Test: 10\%
+Cross Validation:
+- For each iteration, take a different part of the training data as validation data
+
+\subsection*{Over- and Underfitting}
+Training error high?
+- Bigger model
+- Train longer
+- Different architecture
+Validation error high (Overfitting)?
+- More data
+- Regularization
+- Different architecture
+
+\subsection*{Hyperparameter Tuning}
+Methods to find the best hyperparameters:
+- Manual search, most common
+- Grid search: Define ranges for all parameters and select points.
+- Random search: Like grid search, but picks points at random in the predefined ranges
+How to start:
+- Start with a single training sample, check if output is corrected, accuracy should be 100%
+- Increase to a handful of samples
+- Move from overfitting to more samples, should lead to generalization
+
 
 
 
