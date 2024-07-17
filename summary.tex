@@ -240,8 +240,27 @@ $$R(\theta) = \sum_{i=1}^{n} |\theta_i|$$
 - Is overall lower than L2 with some higher weight values.
 - Enforces sparsity.
 - Model will focus attention on a few key features.
+Regularization coefficient $\lambda$ sets the level of regularization (higher $\lambda$ means more regularization).
+General effect of regularization: Lower validation error, but increased training error.
 
-Regularization coefficient $\lambda$ sets the level of regularization (higheheutening error.
+\subsection*{Bagging and Ensemble Methods}
+Train multiple models and average their result. Use different optimization methods or loss functions. Bagging: Use k different datasets.
+
+\subsection*{Dropout}
+Disable a random set of neurons, typically 50\%. Dropout reduces co-adaption between neurons. This is similar to training an ensemble of models but with shared paramters. It also can be seen as loosely equivalent to L2 regularization.
+At test time and inference time, all neurons are turned on.
+Disadvantages:
+- Need more training time (around 1.5 times longer).
+- Does not work well with batch normalization.
+
+\subsection*{Batch normalization}
+Batch normalization:
+$$\hat{x}^{(k)} = \frac{x^{(k)} - E[x^{(k)}]}{\sqrt{Var[x^{(k)}]}}$$
+Second step, to allow the network to change the range:
+$$y^{(k)} = \gamma^{(k)} \hat{x}^{(k)} + \beta^{(k)}$$
+where $\gamma$ and $\beta$ are learnable parameters.
+This re-centers and re-scales the dimensions by normalizing the mean and variance. Batch Normalization is employed after the linear transformation but before the activation. Important is that Batch normalization treats dimensions $k$ separatly. It is empirically shown that this works. On the other hand, layer normalization normalizes over dimensions instead of over batches. During testing and inference, we cannot calculate the mean and variance of a minibatch, therefore we compute an exponentially weighted average across training batches.
+Internal Covariate Shift: The change of the distributions of the activations due to a change in parameters of previous layers. Batch Normalization was believed to help mitigate Internal Covariate Shift. Some scholars believe it instead helps smooth the loss function. Its much easier to train larger networks with batch normalization.
 
 
 \section*{Training}
@@ -290,6 +309,12 @@ How to start:
 - Start with a single training sample, check if output is corrected, accuracy should be 100%
 - Increase to a handful of samples
 - Move from overfitting to more samples, should lead to generalization
+
+\subsection*{Data Augmentation}
+A classifier has to be invariant to a wide variety of transformations.
+Synthesize data using plausible transformations:
+- Brightness and contrast changes
+- Random crops (parts of the image)
 
 
 \section*{Weight Initialization}
