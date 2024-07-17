@@ -32,6 +32,37 @@ $$L(\hat{y}_i, y_i) = -[y_i \; log \, \hat{y}_i + (1 - y_i) \, log(1 - \hat{y}_i
 No analytical solution. Iterative method needed (gradient descent).
 
 
+\section*{Activation Functions}
+Sigmoid:
+$$\sigma (x) = \frac{1}{1 + e^{x}}$$
+Disadvantages:
+- Vanishing gradient problem: gradients quickly approach 0
+- The output is not zero-centered
+TanH:
+$$tanh(x)$$
+Zero-centered, but still the vanishing gradient problem.
+ReLU:
+$$ReLU(x) = max(0, x)$$
+Advantages:
+- In practice, faster convergence than sigmoid/TanH
+- No vanishing gradient problem, large and consistent gradients
+- Computationally efficient
+Disadvantages:
+- Blows up output
+- Dead neurons
+Leaky ReLU:
+$$LReLU(x) = max(0.01, x)$$
+- Like ReLU, but does not cause dead neurons
+Parametric ReLU:
+$$PReLU(x) = max(\alpha x, x)$$
+- One more parameter for backpropagation
+- Also does not die
+Maxout:
+$$Maxout(x) = max(w^T_1 x + b_1, w^T_2 x + b_2)$$
+- Returns the maximum of the inputs
+- Generalization of the ReLU function
+
+
 \section*{Output Functions}
 Output function is the last activation function of the network, which represents the network output.
 Binary classification: Sigmoid
@@ -83,8 +114,9 @@ Cross Entropy loss (multi-class classification):
 $$L(y, \hat{y}; \theta) = - \sum_{i=1}^{n} \sum_{k=1}^{k} (y_{ik} \cdot log \, \hat{y}_{ik})$$
 The second sum is a generalization of the binary cross entropy case for multiple classes.
 
-Hinge Loss (multi-class):
-$$L_i(y, \hat{y}) = max(0, \sum_{k \neq y_idea}^{max})$$
+Hinge Loss (multi-class classification):
+$$L_i = \sum_{k \neq y_i} max(0, s_k - s_{y_i} + 1)$$
+- Hinge loss quickly saturates at 0 loss for good predicitions, which is not useful for neural network backpropagation. Cross entropy loss on the other hand always wants to improve, the loss is never 0.
 
 
 \section*{Backpropagation}
