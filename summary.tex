@@ -44,7 +44,7 @@ Zero-centered, but still the vanishing gradient problem.
 ReLU:
 $$ReLU(x) = max(0, x)$$
 Advantages:
-- In practice, faster convergence than sigmoid/TanH
+- In practice, faster convergence than sigmoid/tanh
 - No vanishing gradient problem, large and consistent gradients
 - Computationally efficient
 Disadvantages:
@@ -292,7 +292,18 @@ How to start:
 - Move from overfitting to more samples, should lead to generalization
 
 
-
+\section*{Weight Initialization}
+All weights zero:
+- The hidden units compute all the same value, gradients are the same
+Small random numbers (0 mean, 0.01 standard deviation):
+- Vanishing gradients especially with tanh or sigmoid activations
+Big random numbers (0 mean, 1 standard deviation):
+- Outputs saturated to -1 or 0 and 1 with tanh or sigmoid, causing vanishing gradients
+Xavier initialization:
+- Initialize with 0 mean and $Var(w) = \frac{1}{n}$ and bias 0 at each layer, where $n$ is the number of input neurons.
+- This leads to good distributions.
+- When using ReLU, it kills half the neurons. Therefore, we need to double the variance: $Var(x) = \frac{2}{n}$.
+- Xavier is proven to be the best initialization method.
 
 
 
