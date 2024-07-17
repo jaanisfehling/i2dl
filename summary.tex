@@ -331,5 +331,30 @@ Xavier initialization:
 - Xavier is proven to be the best initialization method.
 
 
+\section*{Convolutional Neural Networks}
+\subsection*{Convolutional Layer}
+Learnable convolutional filters. Extremely important for computer vision tasks since networks composed of fully connected linear layers would require too many parameters. 
+A 2D convolutional layer consists of:
+- Number of filters
+- Filter size $F \times F$, the depth is given by the number of channels in the input.
+- The stride $S$, meaning the movement of the filter after each convolution
+- The padding $P$, which pads the input with zeros.
+
+We can calculate the output dimension by using the input size $N \times N$:
+$$\left (\left \lfloor{\frac{N + 2P - F}{S}}\right \rfloor + 1 \right) \times \left (\left \lfloor{\frac{N + 2P - F}{S}}\right \rfloor + 1 \right)$$
+To achieve the same output dimension as the input dimension, use padding $P = \frac{F - 1}{2}$.
+
+The weight tensor of the convolutional layer has shape $(channels, filters, F, F)$.
+
+\subsection*{Pooling Layer}
+Select a ceratain feature in a region. Max Pooling selectes the max value of a region in the input. Average Pooling computes the average of a region.
+Dimensions:
+- Input $W_{in} \times H_{in} \times D_{in}$
+- Spacial filter extent $F$
+- Stride $S$
+- Output: $W_{out} = \frac{W_{in} - F}{S} + 1$, $H_{out} = \frac{H_{in} - F}{S} + 1$, $D_{out} = D_{in}$
+Does not contain any parameters, its just a fixed function.
+
+
 
 \end{document}
