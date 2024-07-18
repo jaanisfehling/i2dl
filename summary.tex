@@ -355,6 +355,25 @@ Dimensions:
 - Output: $W_{out} = \frac{W_{in} - F}{S} + 1$, $H_{out} = \frac{H_{in} - F}{S} + 1$, $D_{out} = D_{in}$
 Does not contain any parameters, its just a fixed function.
 
+\subsection*{Other Layers}
+1x1 Convolution: Useful for shrinking the number of channels.
+Inception Layer: Use multiple different convolutions in one layer and concatenate the outputs (as done in GoogLeNet/XceptionNet).
+
+\subsection*{Common Architectures}
+LeNet/AlexNet/VGG: Conv > Pool > Conv > Pool > Conv > FC (Fully Connected).
+As we go deeper in the network, the width and height of the image decreasees, but the number of filters (the depth) increases.
+Larger networks makes training harder, vanishing or exploding gradient become more common. This was a bottleneck, until residual blocks were invented.
+Residual Block: Two layers, and the input to the first layer is added to the output of the second layer before the activation. Residuals help mitigate the vanishing gradient problem, since on the gradient computation the added summand will make gradients not go towards 0. In the forward pass, it allows for signal propagation and therefore includes the filter information from the previous block in the activation of the next block.
+
+\subsection*{Upsampling}
+Upsampling for CNNs: Turn a latent representation of the image with increased depth back to a bigger image with less depth.
+Two types of upsampling:
+- Interpolation: Interpolate the missing pixels (Bilinear interpolation, Bicubic interpolation)
+- Transposed Convolution/Up-Convolution: A Convolutional Layer that increases the output size.
+U-Net: Encoder-Decoder like CNN with Skip Connections.
+Encoder (Contraction Path): Typical CNN architecture; Convolutions, ReLU, MaxPool; decreasing width/height, increasing depth.
+Decoder (Expansion Path): 2x2 up-convolutions that increase the height and width but decrease the depth; skip connections from the encoder.
+The result is an image with similar size to the input, which allows for tasks that require class labels on each pixel such as image segmentation.
 
 
 \end{document}
