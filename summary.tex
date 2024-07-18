@@ -376,4 +376,28 @@ Decoder (Expansion Path): 2x2 up-convolutions that increase the height and width
 The result is an image with similar size to the input, which allows for tasks that require class labels on each pixel such as image segmentation.
 
 
+\section*{Transfer Learning}
+Re-use pre-trained models. For example, take a big CNN model and only replace the last fully connected layer with another fully connected layer that has the amount of output classes for your task. Train only this layer, freeze the remaining layers in the network. If you dataset is big enough, you can train all layers with a low learning rate.
+Transfer learning is useful if the dataset of the original model and your dataset have the same input, when there is way more data for the original task and when features learned for the original task could be useful for the second task.
+
+Representation Learning: Learn deep representation for a variety of tasks. For example, a representation learning network could try to maximize the similarity between the same image transformed in different ways. The acquired representation in the network are then used in the downstream task.
+
+
+\section*{Recurrent Neural Networks}
+Process sequential data.
+Many types of RNNs: Many-to-one, one-to-many, many-to-many.
+Formal definition of a RNN hidden state:
+$$A_t = \theta_c A_{t-1} + \theta_x x_t$$
+where $\theta_c A_{t-1}$ is the output of the previous hidden state and $\theta_x x-t$ is the input to this hidden state. The weights of this hidden unit are shared across all hidden units in the layer. The weights are only different between layers. The reason for this is so the model can generalize to different sequence lengths. Also sometimes the same operation should be performed even if the order in the sentence changes (as sometimes in NLP). A practical reason was also that less parameters make the training more feasable.
+A big problem with RNNs are long term dependencies in sentences. Large weights for that input (eigenvalue $>$ 1) lead to exploding gradients and small weights (eigenvalue $<$ 1) lead to vanishing gradients.
+
+\subsection*{Long-Short Term Memory Units}
+RNN, but with additional ingredients to each hidden state:
+- Cell: Transports the information from the previous unit to the next unit.
+- Forget gate: Takes the input and previous output, applies linear transformation and sigmoid, and element-wise multiplies the output with the cell state. Intuition: The sigmoid output 0 means forget and 1 means keep. This decides if the cell state should be kept or forgotten.
+- Input gate: Takes the input and previous output, applies linear transformation and sigmoid, take the current state and apply tanh, combine these two with pointwise multiplication and add it onto the cell state. Intuition: Decides which values should be updated on the cell state.
+- Output gate:
+
+
+
 \end{document}
