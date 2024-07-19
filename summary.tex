@@ -422,6 +422,29 @@ In edge to node updates, the node feature receives updates from all connected ed
 
 \section*{Generative Models}
 \subsection*{Variational Autoencoder}
+Autoencoder, that maps each input into a distribution in the latent space. Distribution here means a predefined distribution (a Gaussian), and instead of the latent vector in a normal autoencoder, the variational autoencoders latent space in composed of a mean vector and standard deviation vector. The latent vector output vector of the variational autoencoder can be created by sampling from the distribution by using the mean and standard deviation.
+The loss of a variational autoencoder consists of the reconstruction loss and the Kullback Leibler Divergence of the latent distribution and the normal distribution to make sure the latent distribution does not diverge too much.
+Variational autoencoders are useful for generative tasks and or tasks in the computer vision domain.
+
+
+\subsection*{Generative Adversarial Networks}
+Use a decoder as a generator. A discriminator, a binary classifier, decides if the generation is fake or real. The discriminator is trained by using using generator data labelled as fake and real images labelled as real. This way, the network trainig is a minmax game, where the generator tries to produce real images, while the discriminator tries to classifiy all generator images as fake.
+GANs were the first iteration of viable image generation models.
+
+\subsection*{Diffusion Models}
+Diffusion process: Graudally add noise to an input image. The model has to recover the noised data, by denoising gradually. Commonly implemented with U-Net, but the general architecture can be flexible.
+The loss is a Kullback Leibler divergence between the distribution of the model output and the training data distribution.
+
+
+\section*{Reinforcement Learing}
+Characteristics:
+- Sequential data
+- Actions have effect on environment
+- Target is approximated by reward
+- Is a Markov Decision Process (MDP)
+- Policy: Maps from state to action
+- $V$-function gives value of a state
+- $Q$-function gives value of an action in a state
 
 
 
